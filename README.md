@@ -107,12 +107,16 @@ npm run preview
 servicefinder_project/
 |-- public/
 |-- src/
-|   |-- api.js
+|   |-- components/
+|   |   |-- api.js
+|   |   |-- ServiceCard.jsx
+|   |   |-- ServiceDetailsModal.jsx
+|   |-- hooks/
+|   |   |-- useSavedServices.js
+|   |   |-- useSearch.js
+|   |-- assets/
 |   |-- App.jsx
 |   |-- App.css
-|   |-- ServiceCard.jsx
-|   |-- ServiceDetailsModal.jsx
-|   |-- BookingModal.jsx
 |   |-- main.jsx
 |   |-- index.css
 |-- index.html

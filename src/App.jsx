@@ -1,58 +1,19 @@
-import React, { useState, useEffect } from "react";
-import { geocodeLocation, findNearbyServices, SERVICE_CATEGORIES } from "./api";
-import ServiceCard from "./ServiceCard";
-import ServiceDetailsModal from "./ServiceDetailsModal";
+import React, { useState } from "react";
+import { SERVICE_CATEGORIES } from "./components/api";
+import ServiceCard from "./components/ServiceCard";
+import ServiceDetailsModal from "./components/ServiceDetailsModal";
+import { useSavedServices } from "./hooks/useSavedServices";
+import { useSearch } from "./hooks/useSearch";
 import "./App.css";
 
 export default function App() {
-  const [location, setLocation]       = useState("");
-  const [selected, setSelected]       = useState(null);
-  const [results, setResults]         = useState([]);
-  const [status, setStatus]           = useState("idle"); // idle | loading | done | error
-  const [errorMsg, setErrorMsg]       = useState("");
-  const [resolvedCity, setResolvedCity] = useState("");
+  // Custom hooks for managing search and saved services
+  const { location, setLocation, selected, setSelected, results, status, errorMsg, resolvedCity, handleSearch, clearSearch } = useSearch();
+  const { savedServices, isSaved, toggleSave } = useSavedServices();
+
+  // Local state for view and modal
   const [detailsService, setDetailsService] = useState(null);
   const [currentView, setCurrentView] = useState("explore"); // "explore" | "saved"
-  const [savedServices, setSavedServices] = useState(() => {
-    const saved = localStorage.getItem("serviceFinder_saved");
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  useEffect(() => {
-    localStorage.setItem("serviceFinder_saved", JSON.stringify(savedServices));
-  }, [savedServices]);
-
-  const isSaved = (serviceId) => savedServices.some(s => s.id === serviceId);
-
-  const toggleSave = (service) => {
-    const serviceToSave = { ...service, _icon: service._icon || selected?.icon };
-    setSavedServices(prev => 
-      prev.some(s => s.id === service.id)
-        ? prev.filter(s => s.id !== service.id)
-        : [...prev, serviceToSave]
-    );
-  };
-
-  async function handleSearch(e) {
-    e.preventDefault();
-    if (!location.trim() || !selected) return;
-
-    setStatus("loading");
-    setResults([]);
-    setErrorMsg("");
-    setCurrentView("explore");
-
-    try {
-      const geo = await geocodeLocation(location);
-      setResolvedCity(geo.display_name.split(",").slice(0, 2).join(","));
-      const places = await findNearbyServices(geo.lat, geo.lon, selected.tag, 3000);
-      setResults(places);
-      setStatus("done");
-    } catch (err) {
-      setErrorMsg(err.message || "Something went wrong.");
-      setStatus("error");
-    }
-  }
 
   return (
     <div className="app">
@@ -131,14 +92,7 @@ export default function App() {
                 <button
                   type="button"
                   className="clear-btn"
-                  onClick={() => {
-                    setLocation("");
-                    setSelected(null);
-                    setResults([]);
-                    setStatus("idle");
-                    setErrorMsg("");
-                    setResolvedCity("");
-                  }}
+                  onClick={clearSearch}
                 >
                   Clear
                 </button>
