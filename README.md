@@ -7,7 +7,7 @@
 ## Student Information
 
 * **Name:** Sushan Shrestha
-* **Roll Number:** 2023-CS-045
+* **Roll Number:** 30
 * **Course / Program:** Bachelor of Computer Application
 * **Semester / Year:** 3rd Semester / 2026
 
@@ -81,7 +81,7 @@
 
 ```bash
 # Clone repository
-git clone <your-repository-url>
+git clone <https://github.com/Samriddhicollege/BCA-2081-3rdSemester-React-ServiceFinder>
 
 # Go to project folder
 cd servicefinder_project
@@ -130,8 +130,8 @@ servicefinder_project/
 
 ## GitHub & Live Demo
 
-* **GitHub Repository:** Add your repository link here
-* **Live URL (if deployed):** Add your deployed app link here
+* **GitHub Repository:** [https://github.com/Samriddhicollege/BCA-2081-3rdSemester-React-ServiceFinder]
+* **Live URL (if deployed):** [https://nearfind.vercel.app/]
 
 ---
 
